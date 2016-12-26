@@ -6,4 +6,4 @@ For Now The Program is Windows-Only.
 
 # Lincese
 
-General Public License Version 3.
+General Public License Version 2,or at your opinions,later.

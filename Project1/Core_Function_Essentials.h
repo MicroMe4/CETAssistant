@@ -124,7 +124,7 @@ void search_vocabulary(char *file, char *intend, const char *mode)
 }
 
 /*组件：加工文字[Specically Designed]*/
-void word_combine(char *word, const char *mode)
+void word_combine(char *word, char *targstr, const char *mode)
 {
 	if (strcmp(mode, "english") == 0)
 	{
@@ -132,7 +132,7 @@ void word_combine(char *word, const char *mode)
 	}
 	else if (strcmp(mode, "wordmod") == 0)
 	{
-		strcat(phrasegetin, "\t");
+		strcat(targstr, "\t");
 	}
 	else if (strcmp(mode, "chinese") == 0)
 	{
@@ -140,23 +140,23 @@ void word_combine(char *word, const char *mode)
 	}
 	else if (strcmp(mode, "example") == 0)
 	{
-		strcat(phrasegetin, "\t英文例句：");
+		strcat(targstr, "\t英文例句：");
 		//Nothing To do
 	}
 	else if (strcmp(mode, "explain") == 0)
 	{
-		strcat(phrasegetin, "\t解释说明：");
+		strcat(targstr, "\t解释说明：");
 		//Nothing To do
 	}
 	else
 	{
 		printf("函数调用错误，没有 %s 这个选项.\n", mode);
 	}
-	strcat(phrasegetin, word);
+	strcat(targstr, word);
 }
 
-/*组件：输入文字[Add/Update共用]*/
-void union_mode_nonpara()
+/*组件：输入文字[Add/Update共用]，写入targstr*/
+void union_mode_nonpara(char *targstr)
 {
 	static char thoseword[120];
 again:
@@ -165,7 +165,7 @@ again:
 	lowerstring(thoseword);
 	if (vaild_check_wordmod(thoseword) == 1)
 	{
-		word_combine(thoseword, "wordmod");
+		word_combine(thoseword, targstr, "wordmod");
 	}
 	else
 	{
@@ -174,43 +174,43 @@ again:
 	}
 	puts("输入中文：");
 	gets(thoseword);
-	word_combine(thoseword, "chinese");
+	word_combine(thoseword, targstr, "chinese");
 	puts("输入解释：");
 	gets(thoseword);
-	word_combine(thoseword, "explain");
+	word_combine(thoseword, targstr, "explain");
 	puts("输入例句：");
 	gets(thoseword);
-	word_combine(thoseword, "example");
+	word_combine(thoseword, targstr, "example");
 }
 
 /*组件：调用Add输入文字*/
-void add_specific_nopara()
+void add_specific_nopara(char *targstr)
 {
 	static char thoseword[120];
 	puts("输入英文：");
 	gets(thoseword);
-	word_combine(thoseword, "english");
-	union_mode_nonpara();
+	word_combine(thoseword, targstr, "english");
+	union_mode_nonpara(targstr);
 }
 
 /*组件：调用Update输入文字*/
-void update_specific_nopara(char *wordbefore)
+void update_specific_nopara(char *wordbefore,char *targstr)
 {
-	word_combine(wordbefore, "english");
-	union_mode_nonpara();
+	word_combine(wordbefore, targstr, "english");
+	union_mode_nonpara(targstr);
 }
 
 /*组件：具有参数式的输入文字*/
-void union_mode_para_exist(char *english, char *wordmod, char *chinese, char *explain, char *example)
+void union_mode_para_exist(char *english, char *wordmod, char *chinese, char *explain, char *example,char *targstr)
 {
 	if (vaild_check_wordmod(wordmod) == 1)
 	{
 		lowerstring(wordmod);
-		word_combine(english, "english");
-		word_combine(wordmod, "wordmod");
-		word_combine(chinese, "chinese");
-		word_combine(explain, "explain");
-		word_combine(example, "example");
+		word_combine(english, targstr, "english");
+		word_combine(wordmod, targstr, "wordmod");
+		word_combine(chinese, targstr, "chinese");
+		word_combine(explain, targstr, "explain");
+		word_combine(example, targstr, "example");
 	}
 	else
 	{
@@ -220,15 +220,9 @@ void union_mode_para_exist(char *english, char *wordmod, char *chinese, char *ex
 }
 
 /*组件：将文字写入文件*/
-void desired_writing_function(char *file,char *word)
+void desired_writing_function(char *file,char *string)
 {
-	FILE *insert;
-	insert = fopen(file, "a");
-	fputs(word, insert);
-	fputs("\n", insert);
-	fclose(insert);
-	strcpy(word, " ");
-	printf("写入操作已完成。\n");
+
 }
 
 /*组件：删除文字*/
@@ -263,19 +257,19 @@ void desired_deleting_function(char *file, char *word)
 }
 
 /*组件：无参数式修改结构*/
-void update_word_nopara(char *file,char *word,char *deststr)
+void update_word_nopara(char *file,char *word,char *targstr)
 {
 	desired_deleting_function(file, word);
-	update_specific_nopara(word);
-	desired_writing_function(file,deststr);
+	update_specific_nopara(word,targstr);
+	desired_writing_function(file,targstr);
 }
 
 /*组件：有参数式修改结构*/
-void update_word_para_exist(char *file, char *deststr, char *english, char *wordmod, char *chinese, char *explain, char *example)
+void update_word_para_exist(char *file, char *targstr, char *english, char *wordmod, char *chinese, char *explain, char *example)
 {
 	desired_deleting_function(file, english);
-	union_mode_para_exist(english, wordmod, chinese, explain, example);
-	desired_writing_function(file, deststr);
+	union_mode_para_exist(english, wordmod, chinese, explain, example, targstr);
+	desired_writing_function(file, targstr);
 }
 
 /*组件：删除/修改确定对话*/

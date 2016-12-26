@@ -22,7 +22,7 @@ void execute_general(int *parameters, char *p[])
 			getchar();
 			if (runoption == 1)
 			{
-				add_specific_nopara();
+				add_specific_nopara(phrasegetin);
 				desired_writing_function(location,phrasegetin);
 			}
 			else if (runoption == 2)
@@ -174,7 +174,7 @@ void execute_general(int *parameters, char *p[])
 	{
 		if (strcmp(p[1], "add") == 0)						//添加单词
 		{
-			union_mode_para_exist(p[2], p[3], p[4], p[5], p[6]);
+			union_mode_para_exist(p[2], p[3], p[4], p[5], p[6],phrasegetin);
 			desired_writing_function(location,phrasegetin);
 		}
 		else if (strcmp(p[1], "update") == 0)				//修改单词
@@ -203,7 +203,7 @@ void execute_general(int *parameters, char *p[])
 			file_validity_check(location);
 			if (strcmp(p[3], "add") == 0)
 			{
-				union_mode_para_exist(p[4], p[5], p[6], p[7], p[8]);
+				union_mode_para_exist(p[4], p[5], p[6], p[7], p[8],phrasegetin);
 				desired_writing_function(location, phrasegetin);
 			}
 			else if (strcmp(p[3], "update") == 0)
@@ -211,7 +211,7 @@ void execute_general(int *parameters, char *p[])
 				if (delete_confirm_dialog(p[4], "update") == DEL_AND_UPD_REQUIRED)
 				{
 					desired_deleting_function(location, p[4]);
-					union_mode_para_exist(p[4], p[5], p[6], p[7], p[8]);
+					union_mode_para_exist(p[4], p[5], p[6], p[7], p[8],phrasegetin);
 					desired_writing_function(location, phrasegetin);
 				}
 			}
@@ -228,7 +228,7 @@ void execute_general(int *parameters, char *p[])
 				if (strcmp(p[9], "--no-warning") == 0)
 				{
 					desired_deleting_function(location, p[4]);
-					union_mode_para_exist(p[4], p[5], p[6], p[7], p[8]);
+					union_mode_para_exist(p[4], p[5], p[6], p[7], p[8],phrasegetin);
 					desired_writing_function(location, phrasegetin);
 				}
 			}

@@ -84,7 +84,7 @@
       <Optimization>Custom</Optimization>
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <CLanguageStandard>gnu99</CLanguageStandard>
+      <CLanguageStandard>gnu11</CLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

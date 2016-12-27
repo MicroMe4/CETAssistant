@@ -22,6 +22,7 @@ void execute_general(int *parameters, char *p[])
 			getchar();
 			if (runoption == 1)
 			{
+				new_item_automatic_check(location);
 				add_specific_nopara(phrasegetin);
 				desired_writing_function(location,phrasegetin);
 			}

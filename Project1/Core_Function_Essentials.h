@@ -3,6 +3,7 @@
 #include "Core_Function_Essentail_Base_Windows_Only.h"
 #endif // _WIN32
 
+/*组件：错误提示/帮助部分*/
 void infomation(const int detail)
 {
 	if (detail == ERR_NOT_ENOUGH_ARGUMENT)
@@ -58,6 +59,7 @@ void file_validity_check(char *file)
 	{
 		infomation(ERR_FILE_NONEXISTANCE);
 	}
+	fclose(valid);
 }
 
 /*组件：词性检查*/
@@ -68,6 +70,22 @@ int vaild_check_wordmod(char *word)
 		return 1;
 	}
 	else return 0;
+}
+
+int getline(char *file)
+{
+	char ch;
+	int lines;
+	FILE *getline = fopen(file, "r");
+	while (!feof(getline))
+	{
+		if ((ch = fgetc(getline)) == '\n')
+		{
+			lines+=1;
+		}
+	}
+	fclose(getline);
+	return lines;
 }
 
 /*组件：小写文字转换*/
@@ -91,8 +109,9 @@ void upperstring(char *word)
 }
 
 /*组件：搜索文字*/
-void search_vocabulary(char *file, char *intend, const char *mode)
+int search_vocabulary(char *file, char *intend, const char *mode)
 {
+	int numberfind = 0;
 	FILE *read = fopen(file, "r");
 	static char readcompare[1000];
 	static char wordcomapre[1000];
@@ -115,12 +134,15 @@ void search_vocabulary(char *file, char *intend, const char *mode)
 					if (wordcomapre[strlen(intend)] == '\t')
 					{
 						puts(readcompare);
+						numberfind++;
 					}
 				}
 			}
 		}
 		strcpy(readcompare, "");						//初始化 readcompare 内容
 	}
+	fclose(read);
+	return numberfind;
 }
 
 /*组件：加工文字[Specically Designed]*/
@@ -222,7 +244,44 @@ void union_mode_para_exist(char *english, char *wordmod, char *chinese, char *ex
 /*组件：将文字写入文件*/
 void desired_writing_function(char *file,char *string)
 {
-
+	int edge = getline(file);
+	fpos_t retard;
+	int writetime = 0, start = 0;
+	char copystring[2][1000];
+	FILE *openguyys = fopen(file, "r+");
+	fgetpos(openguyys, &retard);
+	while (start <= edge)
+	{
+		fgets(copystring[0], 999, openguyys);
+		if (_strcmpi(string, copystring[0]) < 0)
+		{
+			fputs(string, openguyys);
+			fputs("\n", openguyys);
+			fsetpos(openguyys, &retard);
+			fputs(copystring[0], openguyys);
+			writetime += 1;
+			break;
+		}
+		fgetpos(openguyys, &retard);
+		fgets(copystring[1], 999, openguyys);
+		if ((_strcmpi(string, copystring[0]) > 0) && _stricmp(string, copystring[1]) < 0)
+		{
+			fsetpos(openguyys, &retard);
+			fputs(string, openguyys);
+			fputs("\n", openguyys);
+			fputs(copystring[1], openguyys);
+			writetime += 1;
+			break;
+		}
+		start += 1;
+	}
+	if (writetime == 0)
+	{
+		fputs(string, openguyys);
+		fputs("\n", openguyys);
+	}
+	strcpy(string, "");
+	fclose(openguyys);
 }
 
 /*组件：删除文字*/

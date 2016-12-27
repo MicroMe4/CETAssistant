@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <io.h>
 
 // Users Function
 // Program Specification

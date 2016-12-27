@@ -20,3 +20,14 @@ void move_type_function(char *Sourcefile, char *Destination)
 	strcat(move, ">nul");			//不进行回显。
 	system(move);
 }
+
+/*Using Powershell command*/
+void new_item_automatic_check(char *file)
+{
+	char newfile[150] = "powershell -command New-Item ";
+	if (_access(file, 0) != 0)
+	{
+		strcat(newfile, file);
+		system(newfile);
+	}
+}

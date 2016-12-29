@@ -33,7 +33,7 @@
 
 /*可引用文件定义[非常量]*/
 #ifdef _WIN32			//32位Windows操作系统
-char location[100] = "D:\\Words.txt";
+char location[100] = "Words.txt";
 #endif // _WIN32
 
 /* Linux-based System Macro Define */

@@ -2,13 +2,23 @@
 #include "Core_Function_Essentials.h"
 
 /*选项功能*/
-int choose()
+int choose(int action)
 {
-	int thewaytorun;
-	puts("1.添加单词\t2.删除单词\t3.替换\t4.读取特定单词\t5.显示文件\t0.退出");
-	printf("输入选项：");
-	scanf("%d", &thewaytorun);
-	return(thewaytorun);
+	int thewaytorun=9;
+	if (action == 0)
+	{
+		puts("1.添加单词\t2.删除单词\t3.替换\t4.读取特定单词\t5.显示文件\t0.退出");
+		printf("输入选项：");
+		scanf("%d", &thewaytorun);
+		return(thewaytorun);
+	}
+	else if (action == 1)
+	{
+		puts("1.精确查找\t2.粗略查找");
+		printf("输入选项：");
+		scanf("%d", &thewaytorun);
+		return(thewaytorun);
+	}
 }
 
 void execute_general(int *parameters, char *p[])
@@ -17,7 +27,8 @@ void execute_general(int *parameters, char *p[])
 	{
 		static char thoseword[100];
 		int runoption;
-		while ((runoption = choose()) != 0)
+		int searchkey;
+		while ((runoption = choose(0)) != 0)
 		{
 			getchar();
 			if (runoption == 1)

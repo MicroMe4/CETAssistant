@@ -22,7 +22,7 @@ void move_type_function(char *Sourcefile, char *Destination)
 }
 
 /*Using Powershell command*/
-void new_item_automatic_check(char *file)
+int new_item_automatic_check(char *file)
 {
 	char newfile[150] = "powershell -command New-Item ";
 	if (_access(file, 0) != 0)

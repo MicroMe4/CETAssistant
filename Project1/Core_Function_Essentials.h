@@ -55,11 +55,11 @@ void infomation(const int detail)
 void file_validity_check(char *file)
 {
 	FILE *valid;
-	if ((valid = fopen(file, "r")) == NULL)
+	if (_access(file, 0) == NULL)
 	{
 		infomation(ERR_FILE_NONEXISTANCE);
+		system("pause>nul");
 	}
-	fclose(valid);
 }
 
 /*组件：词性检查*/
@@ -116,6 +116,8 @@ int search_vocabulary(char *file, char *intend, const char *mode)
 	static char readcompare[1000];
 	static char wordcomapre[1000];
 	upperstring(intend);
+	printf("\n");
+	puts("下列单词将会被删除:");
 	while (!feof(read))
 	{
 		fgets(readcompare, 999, read);
@@ -140,6 +142,10 @@ int search_vocabulary(char *file, char *intend, const char *mode)
 			}
 		}
 		strcpy(readcompare, "");						//初始化 readcompare 内容
+	}
+	if (numberfind == 0)
+	{
+		printf("无查找结果\n");
 	}
 	fclose(read);
 	return numberfind;
@@ -253,7 +259,7 @@ void desired_writing_function(char *file,char *string)
 	while (start <= edge)
 	{
 		fgets(copystring[0], 999, openguyys);
-		if (_strcmpi(string, copystring[0]) < 0)
+		if (stricmp(string, copystring[0]) < 0)
 		{
 			fputs(string, openguyys);
 			fputs("\n", openguyys);

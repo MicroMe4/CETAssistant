@@ -32,7 +32,7 @@
 #define DEL_AND_UPD_REQUIRED 0x00000002
 
 /*可引用文件定义[非常量]*/
-#ifdef _WIN32			//32位Windows操作系统
+#ifdef _WIN32			//Windows操作系统判断
 char location[100] = "Words.txt";
 #endif // _WIN32
 
@@ -40,5 +40,3 @@ char location[100] = "Words.txt";
 
 /* General Variables*/
 char phrasegetin[1000]="";
-
-

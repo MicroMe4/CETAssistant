@@ -271,7 +271,7 @@ void desired_writing_function(char *file,char *string)
 		}
 		fgetpos(openguyys, &retard);
 		fgets(stringl, 999, openguyys);
-		if ((stricmp(string, stringf) > 0) && stricmp(string, stringl) < 0)
+		if ((stricmp(string, stringf) > 0) && stricmp(string, stringl) <= 0)
 		{
 			fsetpos(openguyys, &retard);
 			fputs(string, openguyys);
@@ -312,7 +312,7 @@ void desired_deleting_function(char *file, char *word)
 		{
 			fputs(copyword, tofile);
 		}
-		else if (no_diff_copy[strlen(word)] != '\t')
+		else if (isalpha(no_diff_copy[strlen(word)]) == 1)
 		{
 			fputs(copyword, tofile);
 		}

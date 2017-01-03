@@ -10,15 +10,14 @@ int choose(int action)
 		puts("\n1.添加单词\t2.删除单词\t3.替换\t4.读取特定单词\t5.显示文件\t0.退出");
 		printf("输入选项：");
 		scanf("%d", &thewaytorun);
-		return(thewaytorun);
 	}
 	else if (action == 1)
 	{
 		puts("\n1.精确查找\t2.粗略查找");
 		printf("输入选项：");
 		scanf("%d", &thewaytorun);
-		return(thewaytorun);
 	}
+	return(thewaytorun);
 }
 
 void execute_general(int *parameters, char *p[])

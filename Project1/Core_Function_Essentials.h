@@ -52,14 +52,14 @@ void infomation(const int detail)
 }
 
 /*组件：文件存在性检测*/
-void file_validity_check(char *file)
+int file_validity_check(char *file)
 {
-	FILE *valid;
-	if (_access(file, 0) == NULL)
+	if (_access(file, 0) == -1)
 	{
 		infomation(ERR_FILE_NONEXISTANCE);
-		system("pause>nul");
+		return 0;
 	}
+	else return 1;
 }
 
 /*组件：词性检查*/
@@ -72,6 +72,7 @@ int vaild_check_wordmod(char *word)
 	else return 0;
 }
 
+/*组件：计算文件行数*/
 int getline(char *file)
 {
 	char ch;
@@ -117,7 +118,6 @@ int search_vocabulary(char *file, char *intend, const char *mode)
 	static char wordcomapre[1000];
 	upperstring(intend);
 	printf("\n");
-	puts("下列单词将会被删除:");
 	while (!feof(read))
 	{
 		fgets(readcompare, 999, read);
@@ -253,29 +253,29 @@ void desired_writing_function(char *file,char *string)
 	int edge = getline(file);
 	fpos_t retard;
 	int writetime = 0, start = 0;
-	char copystring[2][1000];
+	static char stringf[1000], stringl[1000];
 	FILE *openguyys = fopen(file, "r+");
 	fgetpos(openguyys, &retard);
 	while (start <= edge)
 	{
-		fgets(copystring[0], 999, openguyys);
-		if (stricmp(string, copystring[0]) < 0)
+		fgets(stringf, 999, openguyys);
+		if (stricmp(string, stringf) < 0)
 		{
+			fsetpos(openguyys, &retard);
 			fputs(string, openguyys);
 			fputs("\n", openguyys);
-			fsetpos(openguyys, &retard);
-			fputs(copystring[0], openguyys);
+			fputs(stringf, openguyys);
 			writetime += 1;
 			break;
 		}
 		fgetpos(openguyys, &retard);
-		fgets(copystring[1], 999, openguyys);
-		if ((_strcmpi(string, copystring[0]) > 0) && _stricmp(string, copystring[1]) < 0)
+		fgets(stringl, 999, openguyys);
+		if ((stricmp(string, stringf) > 0) && stricmp(string, stringl) < 0)
 		{
 			fsetpos(openguyys, &retard);
 			fputs(string, openguyys);
 			fputs("\n", openguyys);
-			fputs(copystring[1], openguyys);
+			fputs(stringl, openguyys);
 			writetime += 1;
 			break;
 		}
@@ -286,8 +286,8 @@ void desired_writing_function(char *file,char *string)
 		fputs(string, openguyys);
 		fputs("\n", openguyys);
 	}
-	strcpy(string, "");
 	fclose(openguyys);
+	strcpy(string, "");
 }
 
 /*组件：删除文字*/
@@ -326,6 +326,7 @@ void update_word_nopara(char *file,char *word,char *targstr)
 {
 	desired_deleting_function(file, word);
 	update_specific_nopara(word,targstr);
+	strcpy(targstr, "");
 	desired_writing_function(file,targstr);
 }
 
@@ -344,11 +345,11 @@ int delete_confirm_dialog(char *words,const char *mode)
 	search_vocabulary(location, words,"strict");
 	if (strcmp(mode, "delete") == 0)
 	{
-		puts("上述单词将会被删除，是否确定删除？");
+		puts("上述单词将会被删除，是否确定删除？（yes/no（默认））");
 	}
 	else if (strcmp(mode, "update") == 0)
 	{
-		puts("上述单词将会被替换，是否确定替换？");
+		puts("上述单词将会被替换，是否确定替换？（yes/no（默认））");
 	}
 	gets(confirmword);
 	if (strcmp(confirmword, "yes") == 0)

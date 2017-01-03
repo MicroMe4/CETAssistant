@@ -7,14 +7,14 @@ int choose(int action)
 	int thewaytorun=9;
 	if (action == 0)
 	{
-		puts("1.添加单词\t2.删除单词\t3.替换\t4.读取特定单词\t5.显示文件\t0.退出");
+		puts("\n1.添加单词\t2.删除单词\t3.替换\t4.读取特定单词\t5.显示文件\t0.退出");
 		printf("输入选项：");
 		scanf("%d", &thewaytorun);
 		return(thewaytorun);
 	}
 	else if (action == 1)
 	{
-		puts("1.精确查找\t2.粗略查找");
+		puts("\n1.精确查找\t2.粗略查找");
 		printf("输入选项：");
 		scanf("%d", &thewaytorun);
 		return(thewaytorun);
@@ -26,8 +26,7 @@ void execute_general(int *parameters, char *p[])
 	if (*parameters == 1)			//无参数运行
 	{
 		static char thoseword[100];
-		int runoption;
-		int searchkey;
+		int runoption, searchkey;
 		while ((runoption = choose(0)) != 0)
 		{
 			getchar();
@@ -59,10 +58,17 @@ void execute_general(int *parameters, char *p[])
 			}
 			else if (runoption == 4)
 			{
-				file_validity_check(location);
 				puts("输入你记得的部分");
 				gets(thoseword);
-				search_vocabulary(location, thoseword,"loose");
+				searchkey = choose(1);
+				if (searchkey == 2)
+				{
+					search_vocabulary(location, thoseword, "strict");
+				}
+				else
+				{
+					search_vocabulary(location, thoseword, "loose");
+				}
 			}
 			else if (runoption == 5)
 			{

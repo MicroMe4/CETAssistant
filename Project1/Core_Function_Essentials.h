@@ -115,28 +115,29 @@ int search_vocabulary(char *file, char *intend, const char *mode)
 	int numberfind = 0;
 	FILE *read = fopen(file, "r");
 	static char readcompare[1000];
-	static char wordcomapre[1000];
+	static char wordcompare[1000];
 	upperstring(intend);
 	printf("\n");
 	while (!feof(read))
 	{
 		fgets(readcompare, 999, read);
-		strcpy(wordcomapre, readcompare);
-		upperstring(wordcomapre);
-		if (strstr(wordcomapre, intend) != NULL)
+		strcpy(wordcompare, readcompare);
+		upperstring(wordcompare);
+		if (strstr(wordcompare, intend) != NULL)
 		{
 			if (strcmp(mode, "loose") == 0)
 			{
 				printf("%s", readcompare);
+				numberfind += 1;
 			}
 			else if (strcmp(mode, "strict") == 0)
 			{
-				if (wordcomapre[0] == intend[0])
+				if (wordcompare[0] == intend[0])
 				{
-					if (wordcomapre[strlen(intend)] == '\t')
+					if (isalpha(wordcompare[strlen(intend)])==0)
 					{
 						puts(readcompare);
-						numberfind++;
+						numberfind+=1;
 					}
 				}
 			}

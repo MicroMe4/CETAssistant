@@ -61,7 +61,7 @@ void execute_general(int *parameters, char *p[])
 				puts("输入你记得的部分");
 				gets(thoseword);
 				searchkey = choose(1);
-				if (searchkey == 2)
+				if (searchkey == 1)
 				{
 					search_vocabulary(location, thoseword, "strict");
 				}
